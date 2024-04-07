@@ -1,12 +1,14 @@
 import eventlet
 import socketio
 from flask import Flask, send_from_directory, request, jsonify
+from flask_cors import CORS  # Import CORS from flask_cors
 
 # Creating a Flask app
 app = Flask(__name__)
+CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
 
 # Creating a Socket.IO server
-sio = socketio.Server()
+sio = socketio.Server(cors_allowed_origins="*")
 
 
 # Serve static files (index.html, script.js, and style.css)
@@ -32,24 +34,28 @@ def connect(sid, environ):
 
 
 @sio.event
-def my_message(sid, data):
-    print("message ", data)
-
-
-@sio.event
 def disconnect(sid):
     print("disconnect ", sid)
 
 
 # Handle POST requests
-@app.route("/update-score", methods=["POST"])
+@app.route("/update-score", methods=["POST", "GET"])
 def update_score():
-    data = request.json  # Assuming the data is sent as JSON
-    # TODO: process Data
-    print("Received score update:", data)
-    sio.emit("update_score", data=data)
-    # Success
-    return jsonify({"message": "Score updated successfully"})
+    if request.method == "GET":
+        return {"name": "soumitra"}
+    if request.is_json:
+        data = request.json  # Assuming the data is sent as JSON
+        # TODO: process Data
+        if data:
+            print("Received score update:", data)
+            # Emit an event to update the score
+            sio.emit("update_score", data=data)
+            # Success
+            return jsonify({"message": "Score updated successfully"})
+        else:
+            return jsonify({"message": "Score is null"})
+    else:
+        return jsonify({"message": "Score is not in JSON Format"})
 
 
 if __name__ == "__main__":

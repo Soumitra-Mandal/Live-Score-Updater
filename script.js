@@ -27,5 +27,5 @@ socket.on('disconnect', () => {
 // Function to update the score in the UI
 function updateScore(score) {
     const scoreWindow = document.getElementById('score-window');
-    scoreWindow.innerHTML = `<p>Score: runs = ${score.runs}</p>`;
+    scoreWindow.innerHTML = `<p>Score: runs = ${score.runs}</p><p>Score: wickets = ${score.wickets}</p>`;
 }
