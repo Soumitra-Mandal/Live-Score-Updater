@@ -19,12 +19,17 @@ def index():
 
 @app.route("/script.js")
 def script():
-    return send_from_directory(".", "script.js")
+    return send_from_directory(".", "static/js/main.09369b4a.js")
 
 
 @app.route("/style.css")
 def style():
-    return send_from_directory(".", "style.css")
+    return send_from_directory(".", "static/css/main.a9ad82dd.css")
+
+
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory(".", "manifest.json")
 
 
 # Defining Socket.IO event handlers

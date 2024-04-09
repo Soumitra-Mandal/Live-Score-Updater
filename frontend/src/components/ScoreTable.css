@@ -1,0 +1,19 @@
+#score-table {
+    margin: 20px;
+    width: auto;
+    max-width: 100%;
+    padding: 10px;
+    border-collapse: collapse;
+}
+
+#score-table th,
+#score-table td {
+    border: 1px solid #cccccc;
+    text-align: left;
+    padding: 8px;
+}
+
+#score-table th {
+    background-color: #f2f2f2;
+    color: black;
+}

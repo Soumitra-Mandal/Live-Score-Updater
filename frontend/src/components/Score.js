@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
+import ScoreTable from "./ScoreTable";
 
 const Score = () => {
   // Initialize socket connection to the server
@@ -48,14 +49,15 @@ const Score = () => {
       socket.off("message");
     };
   }, [socket]);
-
+  const marginStyle = { margin: "20px" };
   // Render the score component
   return (
     <div>
-      <h1>Score</h1>
-      <p>
+      <h1 style={marginStyle}>Score</h1>
+      <h4 style={marginStyle}>
         {score.runs}-{score.wickets} in {score.overs} overs
-      </p>
+      </h4>
+      <ScoreTable players={score.players} />
     </div>
   );
 };

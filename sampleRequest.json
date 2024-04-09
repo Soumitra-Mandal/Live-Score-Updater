@@ -1,0 +1,34 @@
+{
+  "runs": "54",
+  "wickets": "3",
+  "overs": "11",
+  "players": [
+    {
+      "name": "Virat Kohli",
+      "position": "1",
+      "runs": "45",
+      "balls": "22",
+      "isDismissed": false,
+      "fours": "6",
+      "sixes": "2"
+    },
+    {
+      "name": "AB De Villers",
+      "position": "2",
+      "runs": "30",
+      "balls": "15",
+      "isDismissed": true,
+      "fours": "4",
+      "sixes": "2"
+    },
+    {
+      "name": "Chris Gayle",
+      "position": "3",
+      "runs": "62",
+      "balls": "29",
+      "isDismissed": false,
+      "fours": "3",
+      "sixes": "5"
+    }
+  ]
+}
