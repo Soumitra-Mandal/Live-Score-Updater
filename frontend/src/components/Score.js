@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import ScoreTable from "./ScoreTable";
+const socket = io("http://localhost:5000/");
 
 const Score = () => {
   // Initialize socket connection to the server
-  const socket = io("http://localhost:5000/");
 
   // Get the local score from localStorage and parse it as JSON
   const localScore = JSON.parse(localStorage.getItem("score"));
@@ -16,8 +16,25 @@ const Score = () => {
       : localScore
   );
 
+    // Function to fetch initial score data
+    const fetchInitialScore = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/update_score");
+        if (response.ok) {
+          const data = await response.json();
+          setScore(data);
+          localStorage.setItem("score", JSON.stringify(data));
+        } else {
+          console.error("Failed to fetch initial score data");
+        }
+      } catch (error) {
+        console.error("Error fetching initial score data:", error);
+      }
+    };
+
   // Use useEffect to handle component mounting and unmounting
   useEffect(() => {
+    fetchInitialScore();
     // Log a message when the socket connects to the server
     socket.on("connect", () => {
       console.log("Connected to server");
@@ -46,9 +63,9 @@ const Score = () => {
 
     // Clean up event listener when component unmounts
     return () => {
-      socket.off("message");
+      socket.off("update_score");
     };
-  }, [socket]);
+  }, []);
   const marginStyle = { margin: "20px" };
   // Render the score component
   return (

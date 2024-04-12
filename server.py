@@ -3,6 +3,19 @@ import socketio
 from flask import Flask, send_from_directory, request, jsonify
 from flask_cors import CORS  # Import CORS from flask_cors
 
+cache = {}
+
+
+def getDataFromCache(key):
+    return cache[key]
+
+
+def setDataToCache(key, value):
+    cache[key] = value
+
+
+setDataToCache("score", {"runs": 0, "wickets": 0, "overs": 0, "players": []})
+
 # Creating a Flask app
 app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
@@ -44,15 +57,18 @@ def disconnect(sid):
 
 
 # Handle POST requests
-@app.route("/update-score", methods=["POST", "GET"])
+@app.route("/update_score", methods=["POST", "GET"])
 def update_score():
     if request.method == "GET":
-        return {"name": "soumitra"}
+        return getDataFromCache("score")
     if request.is_json:
         data = request.json  # Assuming the data is sent as JSON
         # TODO: process Data
         if data:
             print("Received score update:", data)
+
+            # Store Data in cache
+            setDataToCache("score", data)
             # Emit an event to update the score
             sio.emit("update_score", data=data)
             # Success
