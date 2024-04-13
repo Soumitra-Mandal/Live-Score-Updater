@@ -1,6 +1,6 @@
 # Live Score Updater
 
-Live Score Updater is a live cricket score updater application built using websockets and React. It allows users to update the server with cricket scores via a POST endpoint, which in turn emits an event to the frontend to update the user interface. The frontend stores the scores in local storage and displays them until they are updated again.
+Live Score Updater is a live cricket score updater application built using websockets and React. It allows users to update the server with cricket scores via two POST endpoints one for **Scores** and one for **Live Feed**, which in turn emit events to the frontend to update the user interface. The frontend stores the scores in local storage and displays them until they are updated again.
 
 ## Running the Application
 
@@ -32,9 +32,13 @@ python server.py
 
 The backend server will start and listen for incoming requests.
 
-To update scores, follow the [Sample Request](sampleRequest.json) and send a request to:
+To update scores, follow the [Sample Request](samples/sampleRequest_UpdateScore.json) and send a request to:
 
-POST /update-score
+POST /update_score
+
+To update live feed, follow the [Sample Request](samples/sampleRequest_LiveFeed.json.json) and send a request to:
+
+POST /live_feed
 
 ### Frontend Development
 

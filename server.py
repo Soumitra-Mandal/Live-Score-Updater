@@ -32,12 +32,12 @@ def index():
 
 @app.route("/script.js")
 def script():
-    return send_from_directory(".", "static/js/main.09369b4a.js")
+    return send_from_directory(".", "static/js/main.e25705e4.js")
 
 
 @app.route("/style.css")
 def style():
-    return send_from_directory(".", "static/css/main.a9ad82dd.css")
+    return send_from_directory(".", "static/css/main.b1e2d545.css")
 
 
 @app.route("/manifest.json")
@@ -77,6 +77,26 @@ def update_score():
             return jsonify({"message": "Score is null"})
     else:
         return jsonify({"message": "Score is not in JSON Format"})
+
+
+@app.route("/live_feed", methods=["POST", "GET"])
+def update_feed():
+    if request.method == "GET":
+        return getDataFromCache("feed")
+    if request.is_json:
+        feed = request.json
+        if feed:
+            print("Received score update:", feed)
+            # Store Data in cache
+            setDataToCache("feed", feed)
+            # Emit an event to update the feed
+            sio.emit("update_feed", data=feed)
+            # Success
+            return jsonify({"message": "Feed updated successfully"})
+        else:
+            return jsonify({"message": "Feed is null"})
+    else:
+        return jsonify({"message": "Feed is not in JSON Format"})
 
 
 if __name__ == "__main__":
